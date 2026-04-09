@@ -1,0 +1,50 @@
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.4rem;
+    font-family: "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+
+h1 a,
+h2 a {
+    color: #1f85de;
+}
+
+.header {
+    background-color: #1f85de;
+    width: 100%;
+    padding: 20px 20px 20px 40px;
+}
+.header h1,
+.header h1 a,
+.header h1 a:visited,
+.header h1 a:active {
+    color: #ffffff;
+    font-size: 36pt;
+    text-decoration: none;
+}
+
+.content {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.date {
+    color: #828282;
+}
+.post {
+    marign-bottom: 70px;
+}
+
+.post h2 a,
+.post h2 a:visited {
+    color: #000000;
+    font-weight: bold;
+    transition: all 0.5s ease;
+}
+
+.post h2 a:hover {
+    font-weight: bold;
+    transition: all 0.5s ease;
+}

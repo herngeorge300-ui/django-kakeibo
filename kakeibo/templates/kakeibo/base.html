@@ -1,0 +1,25 @@
+{% load static %}
+<html>
+    <head>
+        <link
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <script
+            src="https://code.jquery.com/jquery-4.0.0.min.js"
+            integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
+            crossorigin="anonymous"
+        ></script>
+        <link href="{% static 'css/blog.css' %}" rel="stylesheet" />
+    </head>
+
+    <div class="header">
+        <h1><a href="/">The Kakeibo</a></h1>
+    </div>
+
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">{% block content %} {% endblock %}</div>
+        </div>
+    </div>
+</html>
