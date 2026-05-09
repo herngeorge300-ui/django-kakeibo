@@ -1,4 +1,5 @@
 {% extends 'kakeibo/base.html' %} {% block content %}
+{% if user.is_authenticated %}
 <div class="table-responsive">
     <table class="table table-striped table-sm">
         <thead>
@@ -23,4 +24,18 @@
         </tbody>
     </table>
 </div>
-{% endblock %}
+{% else %}
+<div>
+    <h1>Welcome to <span class="fw-bold">"KAKEVO"</span></h1>
+    <p>
+        あなたの家計簿を作ることが出来るアプリです。まずはサインアップしてツールを使えるように準備を行いましょう！
+    </p>
+    <button
+        href="{% url 'accounts:user_create' %}"
+        class="btn btn-primary btn-lg"
+    >
+        サインアップ
+    </button>
+</div>
+{% endif %} {% endblock %}
+</div>
