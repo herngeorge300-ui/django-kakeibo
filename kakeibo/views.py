@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse
-from django.views.generic import View, CreateView, DetailView, UpdateView
+from django.views.generic import View, CreateView, DetailView, UpdateView, DeleteView
 from django.utils import timezone
 from .models import Kakeibo
 from .forms import PostForm
@@ -47,3 +47,14 @@ class CelUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse('kakeibo:cel_detail', args=(self.object.id,))
+
+class CelDeleteView(LoginRequiredMixin, DeleteView):
+
+    model = Kakeibo
+    template_name = "kakeibo/delete.html"
+
+    def get_success_url(self):
+        """
+        一覧ページにリダイレクト
+        """
+        return reverse("kakeibo:cel_main")
