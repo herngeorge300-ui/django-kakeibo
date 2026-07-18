@@ -1,23 +1,33 @@
 from django.shortcuts import render, reverse
-from django.views.generic import View, CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 from django.utils import timezone
 from .models import Kakeibo
-from .forms import PostForm
+from .forms import PostForm, PostSearchForm
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 
-class KakeiboView(View):
-    def get(self, request, *args, **kwargs):
-        """
-            Get request用の処理
-            家計簿一覧を表示する
-        """
-        context = {}
+class KakeiboView(ListView):
+    model = Kakeibo
+    template_name = 'kakeibo/kakeibo.html'
+    paginate_by = 3
+    def get_queryset(self):
+        form = PostSearchForm(self.request.GET or None)
+        self.form = form
+        queryset = super().get_queryset()
+        if form.is_valid():
+            key_word = form.cleaned_data.get('key_word')
+            if key_word:
+                for word in key_word.split():
+                    queryset = queryset.filter(
+                            Q(memo__icontains=word) | Q(category__categorys__icontains=word)
+                        )
+        return queryset
 
-
-        context['kakeibos'] = Kakeibo.objects.all()
-        # 記事データを取得
-        return render(request, "kakeibo/kakeibo.html", context)
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context['form'] = self.form
+        return context
 
 kakeibo = KakeiboView.as_view()
 

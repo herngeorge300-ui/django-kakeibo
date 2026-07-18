@@ -1,4 +1,5 @@
 from django.forms import ModelForm
+from django import forms
 from .models import Kakeibo
 
 class PostForm(ModelForm):
@@ -12,3 +13,6 @@ class PostForm(ModelForm):
             'money': '金額',
             'memo': 'メモ',
         }
+
+class PostSearchForm(forms.Form):
+    key_word = forms.CharField(label= '検索キーワード', required=False)

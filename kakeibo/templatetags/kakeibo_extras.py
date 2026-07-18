@@ -23,3 +23,13 @@ def get_return_link(request):
     # なければ
     print("WOWOWOWWOW")
     return top_page
+
+
+@register.simple_tag
+def url_replace(request, field, value):
+    """
+    GETパラメータ一部書き換え
+    """
+    url_dict = request.GET.copy()
+    url_dict[field] = str(value)
+    return url_dict.urlencode()

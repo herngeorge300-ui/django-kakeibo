@@ -19,5 +19,10 @@
         class="btn btn-primary btn-lg"
         ><i class="fa-solid fa-file-pen"></i>変更</a
         >
+        <a
+        href="{% url 'kakeibo:cel_delete' kakeibo.pk %}"
+        class="btn btn-danger btn-lg"
+        ><i class="fa-solid fa-trash-can"></i>削除</a
+        >
 </div>
 {% endblock %}
