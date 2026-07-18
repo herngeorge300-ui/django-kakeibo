@@ -1,4 +1,18 @@
-{% extends 'kakeibo/base.html' %} {% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+            src="https://code.jquery.com/jquery-4.0.0.min.js"
+            integrity="sha256-OaVG6prZf4v69dPg6PhVattBXkcOWQB62pdZ3ORyrao="
+            crossorigin="anonymous"
+        ></script>
+    <script src="/static/js/clicktable.js"></script>
+</head>
+<body>
+    {% extends 'kakeibo/base.html' %} {% block content %}
 {% if user.is_authenticated %}
 <div class="table-responsive">
     <table class="table table-striped table-sm">
@@ -13,7 +27,7 @@
         </thead>
         <tbody id="bod">
             {% for kane in kakeibos %}
-            <tr id="table">
+            <tr id="table" data-href="/cel/{{kane.id}}">
                 <td>{{ kane.id }}</td>
                 <td>{{ kane.date }}</td>
                 <td>{{ kane.category }}</td>
@@ -37,5 +51,10 @@
         サインアップ
     </button>
 </div>
+
 {% endif %} {% endblock %}
+
 </div>
+
+</body>
+</html>
