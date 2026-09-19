@@ -8,5 +8,8 @@ urlpatterns = [
     path('add', views.CelCreateView.as_view(), name='cel_add'),
     path('cel/<int:pk>', views.CelDetailView.as_view(), name="cel_detail"),
     path('cel/<int:pk>/update/', views.CelUpdateView.as_view(), name='cel_update'),
-    path('cel/<int:pk>/delete/', views.CelDeleteView.as_view(), name='cel_delete')
+    path('cel/<int:pk>/delete/', views.CelDeleteView.as_view(), name='cel_delete'),
+    path('cel/import/', views.KakeiboImport.as_view(), name='cel_import'),
+    path('cel/main.js', views.GraphView.as_view(),name='plot'),
+    path('cel/sub.js', views.SubGraphView.as_view(),name='subplot')
 ]
