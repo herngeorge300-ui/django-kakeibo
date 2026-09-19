@@ -16,3 +16,6 @@ class PostForm(ModelForm):
 
 class PostSearchForm(forms.Form):
     key_word = forms.CharField(label= '検索キーワード', required=False)
+
+class CSVUpdateForm(forms.Form):
+    file = forms.FileField(label="CSVファイル", help_text="CSVをアップロードしてください")
