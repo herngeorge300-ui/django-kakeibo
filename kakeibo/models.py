@@ -21,12 +21,14 @@ class Kakeibo(models.Model):
         category: カテゴリー
         money: 金額
         memo: メモ
+        author: 作者
     """
     # フィールドの定義
     date = models.DateField(default=timezone.now)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     money = models.IntegerField()
     memo = models.CharField(max_length=30)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.category)
+        return str(self.memo)
