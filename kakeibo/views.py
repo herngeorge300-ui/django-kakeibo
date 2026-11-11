@@ -19,6 +19,7 @@ class KakeiboView(ListView):
         form = PostSearchForm(self.request.GET or None)
         self.form = form
         queryset = super().get_queryset()
+        queryset = queryset.filter(author__exact=self.request.user.id)
         if form.is_valid():
             key_word = form.cleaned_data.get('key_word')
             if key_word:
@@ -41,18 +42,17 @@ class CelCreateView(LoginRequiredMixin, CreateView):
     form_class = PostForm
     template_name = "kakeibo/add.html"
 
-    def form_valif(self, form):
+    def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
     def get_success_url(self):
-        return "/"
+        return reverse("kakeibo:cel_main")
 
 
-class CelDetailView(DetailView):
+class CelDetailView(LoginRequiredMixin,DetailView):
     model = Kakeibo
     template_name = "kakeibo/cel_detail.html"
-
 post_detail = CelDetailView.as_view()
 
 class CelUpdateView(LoginRequiredMixin, UpdateView):
@@ -89,19 +89,19 @@ class KakeiboImport(LoginRequiredMixin, FormView):
         data_np = np.asarray(df)
 
 
-
         for row in data_np:
             defaults = {
                 "date" : row[0],
                 "category": row[1],
                 "money": row[2],
-                "memo": row[3]
+                "memo": row[3],
+                "author": self.request.user
             }
             data, created = Category.objects.get_or_create(categorys=row[1])
             if not created:
                 data.category = row[1]
                 data.save()
-            Kakeibo.objects.create(date=row[0],category=data,money=row[2],memo=row[3])
+            Kakeibo.objects.create(date=row[0],category=data,money=row[2],memo=row[3],author=self.request.user)
         return super().form_valid(form)
 
 
@@ -110,9 +110,7 @@ class GraphView(View):
 
     def get(self,request, *args):
         category = Category.objects.all()
-        kyuuryou = Category.objects.get(categorys='給料')
-        kyuuryou2 = Category.objects.get(categorys='臨時収入')
-        kakeibo = Kakeibo.objects.filter(~Q(Q(category__exact=kyuuryou.id) | Q(category__exact=kyuuryou2.id)))
+        kakeibo = Kakeibo.objects.filter(~Q(Q(category__categorys__icontains='給料') | Q(category__categorys__icontains='臨時収入')))
         print(kakeibo)
         draft_money = list([data.money for data in kakeibo])
         context = {}
@@ -124,10 +122,7 @@ class SubGraphView(View):
     template_name = "kakeibo/subscript.js"
 
     def get(self,request, *args):
-        category = Category.objects.all()
-        kyuuryou = Category.objects.get(categorys='給料')
-        kyuuryou2 = Category.objects.get(categorys='臨時収入')
-        kakeibo = Kakeibo.objects.filter(Q(category__exact=kyuuryou.id) | Q(category__exact=kyuuryou2.id))
+        kakeibo = Kakeibo.objects.filter(Q(Q(category__categorys__icontains='給料') | Q(category__categorys__icontains='臨時収入')))
         draft_money = list([data.money for data in kakeibo])
 
         context = {}
